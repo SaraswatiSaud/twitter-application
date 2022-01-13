@@ -10,4 +10,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
   has_many :tweets
+  has_many :conversations
+  has_many :messages
 end
