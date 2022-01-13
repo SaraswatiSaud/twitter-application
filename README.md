@@ -1,7 +1,5 @@
 # Twitter Application
 
----
-
 #### The API end-points of the application
 
 For user authentication feature (Section 1):
