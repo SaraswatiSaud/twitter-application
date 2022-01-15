@@ -34,7 +34,7 @@ module Api
 
       def destroy
         if @tweet.destroy
-          render json: { success: 'Tweet deleted successfully' }
+          render json: { message: 'Tweet deleted successfully' }
         else
           render json: { error: 'Error while deleting tweet' }
         end

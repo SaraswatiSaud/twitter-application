@@ -23,3 +23,9 @@ For Chat with other users feature (Section 2):
 | POST | localhost:3000/api/v1/conversations | Create new Conversation |
 | POST | localhost:3000/api/v1/conversations/:conversation_id/messages | Create message of a specific conversation |
 | GET | localhost:3000/api/v1/conversations/:conversation_id/messages | List messages of a specifc conversation |
+
+Like/unlike a tweet feature (Section 3):
+| Method | End-point | Description |
+| ------ | ------ | ------ |
+| POST | localhost:3000/api/v1/tweets/:tweet_id/likes | Like a tweet |
+| DELETE | localhost:3000/api/v1/tweets/:tweet_id/likes/:id | Unlike a tweet |
