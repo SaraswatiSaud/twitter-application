@@ -29,3 +29,9 @@ Like/unlike a tweet feature (Section 3):
 | ------ | ------ | ------ |
 | POST | localhost:3000/api/v1/tweets/:tweet_id/likes | Like a tweet |
 | DELETE | localhost:3000/api/v1/tweets/:tweet_id/likes/:id | Unlike a tweet |
+
+Retweet feature (Section 3):
+| Method | End-point | Description |
+| ------ | ------ | ------ |
+| POST | localhost:3000/api/v1/tweets/:tweet_id/retweets | Create retweet |
+| DELETE | localhost:3000/api/v1/tweets/:tweet_id/retweets/:id | Delete retweet |

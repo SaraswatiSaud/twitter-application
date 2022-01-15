@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
-  has_many :tweets
+  has_many :tweets, dependent: :destroy
+  has_many :retweets, dependent: :destroy
   has_many :conversations
   has_many :messages
 end
