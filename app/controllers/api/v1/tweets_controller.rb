@@ -25,16 +25,16 @@ module Api
       end
 
       def update
-        if @tweet.update(tweet_params)
+        if @tweet.update(content: params[:content])
           render json: @tweet, status: 200
         else
           render json: { error: 'Error while updating tweet' }
         end
       end
 
-      def destroy
+      def destroy        
         if @tweet.destroy
-          render json: { message: 'Tweet deleted successfully' }
+          render json: { success: 'Tweet deleted successfully' }
         else
           render json: { error: 'Error while deleting tweet' }
         end
