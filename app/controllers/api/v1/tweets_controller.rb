@@ -14,7 +14,7 @@ module Api
           content: tweet_params[:content]
         )
         if tweet.save
-          render json: tweet, status: 200
+          render json: tweet, status: 201
         else
           render json: { error: 'Error while creating tweet' }
         end

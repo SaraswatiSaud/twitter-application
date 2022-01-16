@@ -3,15 +3,15 @@ module Api
     class MessagesController < ApplicationController
       before_action :find_conversation
       
-      def index
+      def index                
         @messages = @conversation.messages
         render json: @messages, status: 200
       end      
 
       def create
-        @message = @conversation.messages.create!(message_params)
+        @message = @conversation.messages.create(message_params)
         if @message.save
-          render json: @message, status: 200
+          render json: @message, status: 201
         end
       end
 
@@ -22,7 +22,7 @@ module Api
       end
       
       def message_params
-        params.require(:message).permit(:body, :user_id)
+        params.permit(:body, :user_id, :conversation_id)
       end
     end
   end

@@ -9,7 +9,7 @@ module Api
         else
           @conversation = Conversation.create!(conversation_params)
         end
-        render json: @conversation, status: 200        
+        render json: @conversation, status: 201       
       end
 
       private

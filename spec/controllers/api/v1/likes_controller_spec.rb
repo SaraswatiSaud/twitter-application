@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V1::RetweetsController, type: :controller do
+describe Api::V1::LikesController, type: :controller do
   let(:current_user) { FactoryBot.create(:user) }
   let(:auth_headers) { current_user.create_new_auth_token }
   let(:new_user) { User.create(email: 'new_user@gmail.com', password: 'password') }
@@ -11,11 +11,11 @@ describe Api::V1::RetweetsController, type: :controller do
   end
 
   describe '#create' do
-    context 'when retweeting a tweet' do
-      it 'should create a retweet' do
-        expect do          
+    context 'when liking a tweet' do
+      it 'should like a tweet' do
+        expect do
           post :create, params: { tweet_id: @tweet.id, user_id: current_user.id }
-        end.to change { Retweet.count }.by(1)               
+        end.to change { Like.count }.by(1)               
       end
 
       it 'should returns a 201 response' do
@@ -26,12 +26,12 @@ describe Api::V1::RetweetsController, type: :controller do
   end
 
   describe '#destroy' do
-    context 'when deleting a retweet' do
-      it 'should delete the specific retweet' do
-        retweet = @tweet.retweets.create(user_id: current_user.id)
+    context 'when unliking a tweet' do
+      it 'should remove like of a specific tweet' do
+        like = @tweet.likes.create(user_id: current_user.id, liked: true)        
         expect do
-          delete :destroy, params: { id: retweet.id, tweet_id: @tweet.id }
-        end.to change { Retweet.count }.by(-1)
+          delete :destroy, params: { id: like.id, tweet_id: @tweet.id }
+        end.to change { Like.count }.by(-1)
       end
     end
   end

@@ -14,7 +14,7 @@ module Api
             liked: true
           )          
           if like.save
-            render json: like, status: 200
+            render json: like, status: 201
           else
             render json: { error: like.errors.full_messages }
           end
@@ -36,7 +36,10 @@ module Api
       end
 
       def find_like
-        @like = Like.find_by(user_id: current_api_v1_user.id, tweet_id: params[:tweet_id])
+        @like = Like.find_by(
+          user_id: current_api_v1_user.id,
+          tweet_id: params[:tweet_id]
+        )
       end
     end
   end

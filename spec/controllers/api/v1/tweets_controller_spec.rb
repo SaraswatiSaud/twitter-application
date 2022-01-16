@@ -9,45 +9,69 @@ describe Api::V1::TweetsController, type: :controller do
     @tweet = FactoryBot.create(:tweet, user_id: current_user.id)
   end
 
-  context 'when listing tweets' do
-    it 'should have status code 200' do
-      get :index      
-      expect(response.status).to eq(200)      
+  describe '#index' do
+    context 'when listing tweets' do
+      it 'should have status code 200' do
+        get :index      
+        expect(response.status).to eq(200)      
+      end
     end
   end
 
-  context 'when creating a new tweet' do
-    it 'should save a tweet with the attributes' do
-      tweet_params = FactoryBot.attributes_for(:tweet)
-      expect {
+  describe '#create' do
+    context 'when creating a new tweet' do
+      it 'should save a tweet with the valid attributes' do
+        tweet_params = FactoryBot.attributes_for(:tweet)
+        expect {
+          post :create, params: { tweet: tweet_params }
+        }.to change(current_user.tweets, :count).by(1)      
+      end
+
+      it 'should not create tweet with invalid attributes' do
+        tweet_params = FactoryBot.attributes_for(:tweet, content: nil)
+        expect {
+          post :create, params: { tweet: tweet_params }
+        }.to_not change(current_user.tweets, :count)
+      end
+
+      it 'should display an error message with invalid attributes' do
+        tweet_params = FactoryBot.attributes_for(:tweet, content: nil)
         post :create, params: { tweet: tweet_params }
-      }.to change(current_user.tweets, :count).by(1)      
+        error = JSON.parse(response.body)["error"]
+        expect(error).to eq('Error while creating tweet')
+      end
     end
   end
 
-  context 'when viewing a single tweet' do
-    it 'should show details of that particular tweet' do
-      get :show, params: { id: @tweet.id }     
-      tweet_content = JSON.parse(response.body)['content']
-      expect(tweet_content).to eq('This is test.')
-      expect(response.status).to eq(200)
+  describe '#show' do
+    context 'when viewing a single tweet' do
+      it 'should show details of that particular tweet' do
+        get :show, params: { id: @tweet.id }     
+        tweet_content = JSON.parse(response.body)['content']
+        expect(tweet_content).to eq('This is test.')
+        expect(response.status).to eq(200)
+      end
     end
   end
 
-  context 'when updating a single tweet' do
-    it 'should update tweet with new params' do      
-      put :update, params: { id: @tweet.id, content: 'This tweet is edited.' }      
-      new_tweet_content = JSON.parse(response.body)['content']
-      expect(new_tweet_content).to eq('This tweet is edited.')
-      expect(response.status).to eq(200)
+  describe '#update' do
+    context 'when updating a single tweet' do
+      it 'should update tweet with new params' do      
+        put :update, params: { id: @tweet.id, content: 'This tweet is edited.' }      
+        new_tweet_content = JSON.parse(response.body)['content']
+        expect(new_tweet_content).to eq('This tweet is edited.')
+        expect(response.status).to eq(200)
+      end
     end
   end
 
-  context 'when deleting tweet' do
-    it 'should delete the specific tweet' do
-      expect do
-        delete :destroy, params: { id: @tweet.id }
-      end.to change { Tweet.count }.by(-1)      
+  describe '#destroy' do
+    context 'when deleting tweet' do
+      it 'should delete the specific tweet' do
+        expect do
+          delete :destroy, params: { id: @tweet.id }
+        end.to change { Tweet.count }.by(-1)      
+      end
     end
   end
 end

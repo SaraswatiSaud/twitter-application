@@ -5,20 +5,20 @@ module Api
       before_action :set_tweet, only: :create
       before_action :find_retweet
 
-      def create
+      def create        
         if @retweet.present?
           render json: { message: 'The tweet is already retweeted by this user.' }
         else
           retweet = @tweet.retweets.new(user_id: current_api_v1_user.id)
           if retweet.save
-            render json: retweet, status: 200
+            render json: retweet, status: 201
           else
             render json: { error: retweet.errors.full_messages }
           end
         end
       end
 
-      def destroy        
+      def destroy
         if @retweet.destroy
           render json: { message: 'This user deleted the retweet.' }
         else
